@@ -6,32 +6,48 @@
  * @flow
  */
 
-import React from 'react'
-import HomeScreen from './component/HomeScreen'
-import SettingScreen from './component/SettingScreen'
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
-import { NavigationContainer } from '@react-navigation/native'
-import Icon from 'react-native-vector-icons'
+import React from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {Provider} from 'react-redux';
+import store from './store/store';
 
-const Tab = createMaterialBottomTabNavigator()
+import ToolBar from './components/ToolBar';
+import {createStackNavigator} from '@react-navigation/stack';
+import MainTab from './navigator/MainTab';
+import ProductDetailScreen from './screens/ProductDetailScreen';
+import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
+import {Colors} from './const/Colors';
 
-function MyTabs() {
-  return (
-    <Tab.Navigator
-      initialRouteName="Home">
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Settings" component={SettingScreen} />
-      <Tab.Screen name="Tab3" component={HomeScreen} />
-      <Tab.Screen name="Tab4" component={SettingScreen} />
-    </Tab.Navigator>
-  );
-}
+const Stack = createStackNavigator();
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: Colors.PRIMARY,
+    accent: Colors.PRIMARY_DARK,
+  },
+};
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <MyTabs />
-    </NavigationContainer>
+    <Provider store={store}>
+      <PaperProvider style={{flex: 1}} theme={theme}>
+        <ToolBar />
+        <NavigationContainer>
+          <Stack.Navigator
+            initialRouteName="MainTab"
+            screenOptions={{
+              headerShown: false,
+            }}>
+            <Stack.Screen name="MainTab" component={MainTab} />
+            <Stack.Screen
+              name="ProductDetail"
+              component={ProductDetailScreen}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </PaperProvider>
+    </Provider>
   );
 };
 
