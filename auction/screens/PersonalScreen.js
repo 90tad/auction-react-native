@@ -1,61 +1,32 @@
-import React, {Component, useState} from 'react';
-import {Text, View, Image} from 'react-native';
+import React, {Component, useState, useContext, useEffect} from 'react';
+import {Text, View, Image, ActivityIndicator} from 'react-native';
 import EditText from '../components/EditText';
-import {Button} from 'react-native-paper';
-import {Colors} from '../const/Colors';
-import {Dimens} from '../const/Dimens';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {signIn} from '../actions/signIn';
+import AppContext from '../app_context/AppContext';
+import MButton from '../components/MButton';
 
-const usernameLabel = 'Tên đăng nhập';
-const passwordLabel = 'Mật khẩu';
-const signInLabel = 'Đăng nhập';
-class PersonalScreen extends Component {
-  state = {
-    username: 'admin',
-    password: '12345678',
-  };
-  onSubmitSignIn() {
-    this.props.signIn(this.state);
-  }
-  render() {
+function PersonalScreen() {
+
+    const context = useContext(AppContext);
+    const [username, setUsername] = useState('admin');
+    const [password, setPassword] = useState('12345678');
+    const {signIn, pendingRequest, currentUser} = context;
+
+    useEffect(() => {
+        if (currentUser != null) {
+            console.log(`currentUser: ${JSON.stringify(currentUser)}`);
+        }
+    });
+
     return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <EditText
-          icon="person"
-          label={usernameLabel}
-          onChangeText={text => this.setState({username: text})}
-        />
-        <EditText
-          icon="lock"
-          label={passwordLabel}
-          onChangeText={text => this.setState({password: text})}
-        />
-        <Button
-          onPress={() => this.onSubmitSignIn()}
-          style={{margin: Dimens.DIMEN_8}}
-          mode="contained"
-          uppercase={false}
-          color={Colors.PRIMARY}
-          labelStyle={{color: Colors.WHITE}}>
-          {signInLabel}
-        </Button>
-      </View>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <EditText username
+                      onChangeText={text => setUsername(text)}/>
+            <EditText password
+                      onChangeText={text => setPassword(text)}/>
+            <MButton signIn onPress={signIn}/>
+            <View style={{height: 24}}>{pendingRequest ? <ActivityIndicator size={24}/> : null}</View>
+        </View>
     );
-  }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    ...bindActionCreators({signIn}, dispatch),
-  };
-}
-
-function mapStateToProps(state) {
-  return {
-    requesting: state.signInReducer.requesting,
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(PersonalScreen);
+export default PersonalScreen;

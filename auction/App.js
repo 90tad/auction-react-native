@@ -10,6 +10,7 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {Provider} from 'react-redux';
 import store from './store/store';
+import AppProvider from './app_context/AppProvider';
 
 import ToolBar from './components/ToolBar';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -30,24 +31,29 @@ const theme = {
 
 const App = () => {
   return (
-    <Provider store={store}>
-      <PaperProvider style={{flex: 1}} theme={theme}>
-        <ToolBar />
-        <NavigationContainer>
-          <Stack.Navigator
-            initialRouteName="MainTab"
-            screenOptions={{
-              headerShown: false,
-            }}>
-            <Stack.Screen name="MainTab" component={MainTab} />
-            <Stack.Screen
-              name="ProductDetail"
-              component={ProductDetailScreen}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </PaperProvider>
-    </Provider>
+    <AppProvider>
+      <Provider store={store}>
+        <PaperProvider style={{flex: 1}} theme={theme}>
+          {/* <ToolBar /> */}
+          <NavigationContainer>
+            <Stack.Navigator
+              screenOptions={{
+                headerStyle: {
+                  backgroundColor: Colors.PRIMARY,
+                },
+                headerTintColor: '#fff',
+              }}
+              initialRouteName="MainTab">
+              <Stack.Screen name="MainTab" component={MainTab} />
+              <Stack.Screen
+                name="ProductDetail"
+                component={ProductDetailScreen}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </PaperProvider>
+      </Provider>
+    </AppProvider>
   );
 };
 
