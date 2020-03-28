@@ -1,5 +1,5 @@
 import React, {Component, useState} from 'react';
-import {Text, View, Image} from 'react-native';
+import {Text, View, Image, ActivityIndicator} from 'react-native';
 import EditText from '../components/EditText';
 import {Button} from 'react-native-paper';
 import {Colors} from '../const/Colors';
@@ -15,10 +15,15 @@ class PersonalScreen extends Component {
   state = {
     username: 'admin',
     password: '12345678',
+    requesting: false,
   };
+
   onSubmitSignIn() {
-    this.props.signIn(this.state);
+    const {signIn, requesting} = this.props;
+    const {username, password} = this.state;
+    signIn({username, password});
   }
+
   render() {
     return (
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -32,6 +37,7 @@ class PersonalScreen extends Component {
           label={passwordLabel}
           onChangeText={text => this.setState({password: text})}
         />
+        {this.props.requesting ? <ActivityIndicator /> : null}
         <Button
           onPress={() => this.onSubmitSignIn()}
           style={{margin: Dimens.DIMEN_8}}
