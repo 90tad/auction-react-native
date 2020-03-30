@@ -18,43 +18,61 @@ import MainTab from './navigator/MainTab';
 import ProductDetailScreen from './screens/ProductDetailScreen';
 import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
 import {Colors} from './const/Colors';
+import {StatusBar} from 'react-native';
+// import SignInScreenASD from './screens/SignInScreen';
+import ScreenASD from './screens/ScreenASD';
+import SignInScreenASD from './screens/SignInScreen';
 
 const Stack = createStackNavigator();
 const theme = {
-  ...DefaultTheme,
-  colors: {
-    ...DefaultTheme.colors,
-    primary: Colors.PRIMARY,
-    accent: Colors.PRIMARY_DARK,
-  },
+    ...DefaultTheme,
+    colors: {
+        ...DefaultTheme.colors,
+        primary: Colors.PRIMARY,
+        accent: Colors.PRIMARY_DARK,
+        statusBarBackgroundColor: Colors.PRIMARY_DARK,
+    },
 };
 
 const App = () => {
-  return (
-    <AppProvider>
-      <Provider store={store}>
-        <PaperProvider style={{flex: 1}} theme={theme}>
-          {/* <ToolBar /> */}
-          <NavigationContainer>
-            <Stack.Navigator
-              screenOptions={{
-                headerStyle: {
-                  backgroundColor: Colors.PRIMARY,
-                },
-                headerTintColor: '#fff',
-              }}
-              initialRouteName="MainTab">
-              <Stack.Screen name="MainTab" component={MainTab} />
-              <Stack.Screen
-                name="ProductDetail"
-                component={ProductDetailScreen}
-              />
-            </Stack.Navigator>
-          </NavigationContainer>
-        </PaperProvider>
-      </Provider>
-    </AppProvider>
-  );
+    return (
+        <AppProvider>
+            <PaperProvider style={{flex: 1}} theme={theme}>
+                {/* <ToolBar /> */}
+                <StatusBar backgroundColor={Colors.PRIMARY}/>
+                <NavigationContainer>
+                    <Stack.Navigator
+                        screenOptions={{
+                            header: ({scene, previous, navigation}) => {
+                                return (
+                                    <ToolBar
+                                        navigation={navigation}
+                                        previous={previous}
+                                        onBackButtonPress={
+                                            previous && navigation.goBack
+                                        }
+                                    />
+                                );
+                            },
+                            headerStyle: {
+                                backgroundColor: Colors.PRIMARY,
+                            },
+                            headerTintColor: '#fff',
+                        }}
+                        initialRouteName="MainTab">
+                        <Stack.Screen name="MainTab"
+                                      component={MainTab}/>
+                        <Stack.Screen
+                            name="ProductDetail"
+                            component={ProductDetailScreen}
+                        />
+                        <Stack.Screen name="SignIn" component={SignInScreenASD}/>
+                        <Stack.Screen name="ScreenASD" component={ScreenASD}/>
+                    </Stack.Navigator>
+                </NavigationContainer>
+            </PaperProvider>
+        </AppProvider>
+    );
 };
 
 export default App;

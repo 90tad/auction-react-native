@@ -1,20 +1,21 @@
 import React, {Component} from 'react';
 import {Text, View, Image} from 'react-native';
-import {Button} from 'react-native-paper';
+import {ActivityIndicator, Button} from 'react-native-paper';
 import AppContext from '../app_context/AppContext';
 
-export default class SettingScreen extends Component {
-  render() {
-    return (
-      <AppContext.Consumer>
-        {context => (
-          <View
-            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <Text>{context.number}</Text>
-            <Button onPress={context.inc}>inc</Button>
-          </View>
-        )}
-      </AppContext.Consumer>
-    );
-  }
+function SettingScreen() {
+  return (
+    <AppContext.Consumer>
+      {context => (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <Text>{context.number}</Text>
+          {context.pendingRequest ? <ActivityIndicator /> : null}
+          <Button onPress={context.signIn}>sign in</Button>
+          <Button onPress={context.test}>test</Button>
+        </View>
+      )}
+    </AppContext.Consumer>
+  );
 }
+
+export default SettingScreen;
