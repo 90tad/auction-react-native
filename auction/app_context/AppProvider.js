@@ -1,13 +1,26 @@
 import React, {Component} from 'react';
 import AppContext from './AppContext';
+import {signIn} from '../api_service/signIn';
 
 class AppProvider extends Component {
   state = {
-    number: 10,
-    inc: () => {
-      this.setState({number: this.state.number + 1});
+    isUserSignIned: false,
+    currentUser: null,
+    pendingRequest: false,
+    signIn: () => {
+      this.setState({pendingRequest: true});
+      signIn()
+        .then(response => {
+          this.setState({currentUser: response});
+          this.setState({pendingRequest: false});
+          this.setState({isUserSignIned: true});
+        })
+        .catch(error => {
+          console.log(`signInError: ${error}`);
+        });
     },
   };
+
   render() {
     return (
       <AppContext.Provider value={this.state}>

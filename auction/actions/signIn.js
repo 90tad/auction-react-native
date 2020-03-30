@@ -38,17 +38,17 @@ function ajaxTest(signInRequest) {
   ajax
     .post(`${URL}${SIGN_IN_URL}`, JSON.stringify(signInRequest), HEADER)
     .pipe(map(res => console.log(res)));
-  // ajax(ajaxConfig).subscribe({
-  //   onNext: value => {
-  //     console.log('rx:' + JSON.stringify(value));
-  //   },
-  //   onError: error => {
-  //     console.log(`rxErr: ${error}`);
-  //   },
-  //   onComplete: () => {
-  //     console.log(`rx complete`);
-  //   },
-  // });
+  ajax(ajaxConfig).subscribe({
+    onNext: value => {
+      console.log('rx:' + JSON.stringify(value));
+    },
+    onError: error => {
+      console.log(`rxErr: ${error}`);
+    },
+    onComplete: () => {
+      console.log(`rx complete`);
+    },
+  });
 }
 
 const URL = 'http://103.74.116.95:8084/account/';

@@ -2,19 +2,30 @@ import HomeScreen from '../screens/HomeScreen';
 import SearchScreen from '../screens/SearchScreen';
 import PersonalScreen from '../screens/PersonalScreen';
 import AuctionScreen from '../screens/AuctionScreen';
-import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
+// import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {Colors} from '../const/Colors';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import React from 'react';
 
-const Tab = createMaterialBottomTabNavigator();
+// const Tab = createMaterialBottomTabNavigator();
+const Tab = createMaterialTopTabNavigator();
 
 function MainTab() {
   return (
     <Tab.Navigator
+      tabBarPosition={'bottom'}
       activeColor={Colors.WHITE}
       initialRouteName="Home"
-      barStyle={{backgroundColor: Colors.PRIMARY}}>
+      tabBarOptions={{
+        animationEnabled: false,
+        inactiveTintColor: 'lightgray',
+        activeTintColor: 'white',
+        showLabel: false,
+        showIcon: true,
+        indicatorStyle: {backgroundColor: 'white'},
+        style: {backgroundColor: Colors.PRIMARY},
+      }}>
       <Tab.Screen
         options={{
           tabBarLabel: 'Tìm kiếm',

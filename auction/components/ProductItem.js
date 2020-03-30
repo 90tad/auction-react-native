@@ -18,6 +18,7 @@ import {
   LayoutAnimation,
   UIManager,
   Animated,
+  Platform,
 } from 'react-native';
 import {Rating, AirbnbRating} from 'react-native-ratings';
 import {Dimens} from '../const/Dimens';
@@ -29,15 +30,16 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-const ProcuctItem = props => {
+const ProductItem = props => {
   const {name, rate_count, default_rating, price, time_left} = props.item;
   const [expand, setExpand] = useState(false);
-  var icon = expand ? 'chevron-up' : 'chevron-down';
+  let icon = expand ? 'chevron-up' : 'chevron-down';
 
   function onExpandButtonPress() {
     setExpand(!expand);
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
   }
+
   return (
     <Card style={styles.cardContainer} onPress={props.onItemPress}>
       <View
@@ -82,10 +84,13 @@ const ProcuctItem = props => {
       </View>
       {expand && (
         <View
-          style={{overflow: 'hidden'}}
           removeClippedSubviews={true}
           collapsable={true}
-          style={{paddingBottom: 16, paddingHorizontal: 16}}>
+          style={{
+            paddingBottom: 16,
+            paddingHorizontal: 16,
+            overflow: 'hidden',
+          }}>
           <Subheading>{`Gia khoi diem: ${price}`}</Subheading>
           <Subheading>{`Thoi gian: ${time_left}`}</Subheading>
         </View>
@@ -130,4 +135,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProcuctItem;
+export default ProductItem;

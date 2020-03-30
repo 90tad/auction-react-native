@@ -1,67 +1,40 @@
-import React, {Component, useState} from 'react';
-import {Text, View, Image, ActivityIndicator} from 'react-native';
+import React, {useState, useContext, useEffect} from 'react';
+import {View, ActivityIndicator, SafeAreaView} from 'react-native';
 import EditText from '../components/EditText';
-import {Button} from 'react-native-paper';
-import {Colors} from '../const/Colors';
-import {Dimens} from '../const/Dimens';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {signIn} from '../actions/signIn';
+import AppContext from '../app_context/AppContext';
+import UserInformation from '../components/UserInformation';
+import UserMenu from '../components/UserMenu';
+import SvgComponent from '../assets/Logo';
 
-const usernameLabel = 'Tên đăng nhập';
-const passwordLabel = 'Mật khẩu';
-const signInLabel = 'Đăng nhập';
-class PersonalScreen extends Component {
-  state = {
-    username: 'admin',
-    password: '12345678',
-    requesting: false,
-  };
+export default function PersonalScreen({navigation}) {
+  const urlExample =
+    'https://res.cloudinary.com/techsnips/image/fetch/w_2000,f_auto,q_auto,c_fit/https://adamtheautomator.com/content/images/size/w2000/2019/10/user-1633249_1280.png';
+  const context = useContext(AppContext);
+  const [user, setUser] = useState({
+    displayName: 'Khach',
+    avatarUrl: urlExample,
+    authorities: [{name: 'guest'}],
+  });
+  const {currentUser, isUserSignIned} = context;
 
-  onSubmitSignIn() {
-    const {signIn, requesting} = this.props;
-    const {username, password} = this.state;
-    signIn({username, password});
+  useEffect(() => {
+    if (currentUser != null && isUserSignIned) {
+      setUser(currentUser);
+      navigation.navigate('MainTab');
+    }
+  }, [user, isUserSignIned, navigation, currentUser]);
+
+  function onUserInformationPress() {
+    !isUserSignIned
+      ? navigation.navigate('SignIn')
+      : navigation.navigate('UserDetail');
+    //TODO: NAVIGATE USER DETAIL SCREEN
   }
 
-  render() {
-    return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <EditText
-          icon="person"
-          label={usernameLabel}
-          onChangeText={text => this.setState({username: text})}
-        />
-        <EditText
-          icon="lock"
-          label={passwordLabel}
-          onChangeText={text => this.setState({password: text})}
-        />
-        {this.props.requesting ? <ActivityIndicator /> : null}
-        <Button
-          onPress={() => this.onSubmitSignIn()}
-          style={{margin: Dimens.DIMEN_8}}
-          mode="contained"
-          uppercase={false}
-          color={Colors.PRIMARY}
-          labelStyle={{color: Colors.WHITE}}>
-          {signInLabel}
-        </Button>
-      </View>
-    );
-  }
+  return (
+    <View>
+      <UserInformation user={user} onPress={onUserInformationPress} />
+      <UserMenu authorities={user.authorities} />
+    </View>
+  );
 }
-
-function mapDispatchToProps(dispatch) {
-  return {
-    ...bindActionCreators({signIn}, dispatch),
-  };
-}
-
-function mapStateToProps(state) {
-  return {
-    requesting: state.signInReducer.requesting,
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(PersonalScreen);

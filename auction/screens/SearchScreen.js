@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import React, {Component} from 'react';
+import {Text, View} from 'react-native';
+import Logo from './logo';
 
 export default class SearchScreen extends Component {
   render() {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text>Setting</Text>
+      <View style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
+        <Logo />
       </View>
     );
   }
