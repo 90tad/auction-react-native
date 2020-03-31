@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {TextInput} from 'react-native-paper';
 import {View, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {Dimens} from '../const/Dimens';
+import {Dimension} from '../const/Dimension';
 import {Colors} from '../const/Colors';
 
 function EditText({username, password, ...props}) {
@@ -22,7 +22,6 @@ function EditText({username, password, ...props}) {
             style={container}>
             <Icon name={mIcon} size={24} color="gray" style={icon}/>
             <TextInput
-                inlineImageLeft='username'
                 style={input}
                 mode="outlined"
                 label={mLabel}
@@ -37,7 +36,7 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         justifyContent: 'center',
-        margin: Dimens.DIMEN_8,
+        margin: Dimension.DIMEN_8,
     },
     icon: {alignSelf: 'center', marginRight: 16},
     input: {width: 280},

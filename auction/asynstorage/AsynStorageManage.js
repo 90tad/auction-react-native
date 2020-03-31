@@ -13,7 +13,7 @@ export const getSignInResponse = async function() {
   try {
     const value = await AsyncStorage.getItem('SIGN_IN_RESPONSE');
     if (value != null) {
-      console.log(`asyn: ${value}`);
+      console.log(`async: ${value}`);
     }
   } catch (e) {
     console.log(e);

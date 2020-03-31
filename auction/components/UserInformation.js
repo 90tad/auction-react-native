@@ -1,7 +1,7 @@
 import React from 'react';
 import {Subheading, Caption, Title, TouchableRipple} from 'react-native-paper';
 import {View, Image, Text, TouchableNativeFeedback} from 'react-native';
-import {Dimens} from '../const/Dimens';
+import {Dimension} from '../const/Dimension';
 
 function UserInformation({user, ...props}) {
   const userName = [user != null ? user.displayName : 'Khach'];
@@ -12,23 +12,23 @@ function UserInformation({user, ...props}) {
       style={{
         elevation: 0.5,
         borderRadius: 2,
-        height: Dimens.USER_INFORMATION_HEIGHT,
-        width: Dimens.DEVICE_WIDTH,
+        height: Dimension.USER_INFORMATION_HEIGHT,
+        width: Dimension.DEVICE_WIDTH,
         flexDirection: 'row',
       }}>
       <View
         style={{
           flexDirection: 'row',
-          paddingHorizontal: Dimens.DIMEN_16,
+          paddingHorizontal: Dimension.DIMEN_16,
           backgroundColor: 'white',
         }}>
         <Image
           source={{uri: user.avatarUrl}}
           style={{
-            width: Dimens.USER_INFORMATION_AVATAR,
-            height: Dimens.USER_INFORMATION_AVATAR,
-            borderRadius: Dimens.USER_INFORMATION_AVATAR / 2,
-            marginVertical: Dimens.DIMEN_16,
+            width: Dimension.USER_INFORMATION_AVATAR,
+            height: Dimension.USER_INFORMATION_AVATAR,
+            borderRadius: Dimension.USER_INFORMATION_AVATAR / 2,
+            marginVertical: Dimension.DIMEN_16,
             backgroundColor: 'lightgray',
           }}
         />

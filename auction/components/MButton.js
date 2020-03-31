@@ -1,6 +1,6 @@
 import React from 'react';
 import {Button} from 'react-native-paper';
-import {Dimens} from '../const/Dimens';
+import {Dimension} from '../const/Dimension';
 import {Colors} from '../const/Colors';
 
 function MButton({signIn, signUp, ...props}) {
@@ -12,8 +12,8 @@ function MButton({signIn, signUp, ...props}) {
 
     return (
         <Button
-            style={{margin: Dimens.DIMEN_8}}
-            mode="contained"
+            style={{margin: Dimension.DIMEN_8}}
+            mode={signIn && "contained" || signUp && "text"}
             uppercase={false}
             color={Colors.PRIMARY}
             labelStyle={{color: Colors.WHITE}}

@@ -3,7 +3,7 @@ import {View, FlatList} from 'react-native';
 import ProductItem from '../components/ProductItem';
 import {data} from '../MOCK_DATA';
 
-export default function HomeScreen({navigation}) {
+function HomeScreen({navigation}) {
   return (
     <View>
       <FlatList
@@ -11,7 +11,7 @@ export default function HomeScreen({navigation}) {
         renderItem={data => (
           <ProductItem
             item={data.item}
-            onItemPress={() => navigation.navigate('ProductDetail',data.item)}
+            onItemPress={() => navigation.navigate('ProductDetail', data.item)}
           />
         )}
         keyExtractor={item => item.id.toString()}
@@ -19,3 +19,5 @@ export default function HomeScreen({navigation}) {
     </View>
   );
 }
+
+export default HomeScreen
